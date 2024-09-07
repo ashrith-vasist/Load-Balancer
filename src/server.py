@@ -11,14 +11,7 @@ DISCONNECT_MESSAGE = "[DISCONNECTED]"
 server = sc.socket(sc.AF_INET, sc.SOCK_STREAM) # AF_INET is for IPv4 and SOCk_STREAM represents Tcp connection
 server.bind(ADDR)
 
-def send(conn, msg):
-    message = msg.encode(FORMAT) # encoding the message
-    msg_length = len(message)
-    send_length = str(msg_length).encode(FORMAT) # encoding the length of the message
-    send_length += b' '*(HEADER - len(send_length))
-    conn.send(send_length)
-    conn.send(message)
-    
+
     
 
 def handle_client(conn, addr) :
@@ -36,8 +29,9 @@ def handle_client(conn, addr) :
                 connected = False
 
             print(f"[{addr}]  {msg}")
-            message = input("$>>")
-            send(conn, message)
+            s = f"[MESSAGE RECIVED] {addr}"
+            message = s.encode(FORMAT)
+            conn.send(message)
             
 
     conn.close()

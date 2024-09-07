@@ -22,6 +22,7 @@ def send(msg):
     
 
 def communicate():
+    print(f"[CONNECTED] [SERVER: {SERVER}]")
     connected = True
     while connected:
         message = input("$>>")
@@ -29,19 +30,13 @@ def communicate():
         if message == DISCONNECT_MESSAGE:
             connected = False
             break
-        
-        msg_length = client.recv(HEADER).decode(FORMAT) # recives the message length
-        if msg_length:
 
-            msg_length = int(msg_length)
-            msg = client.recv(msg_length).decode(FORMAT) # the actual message
+        msg = client.recv(2048).decode(FORMAT) # the actual message
+        print(f"[{SERVER}]  {msg}") 
 
-            if msg == DISCONNECT_MESSAGE:
-                connected = False
 
-            print(f"[{SERVER}]  {msg}")
+communicate()      
             
             
 
 
-communicate()
